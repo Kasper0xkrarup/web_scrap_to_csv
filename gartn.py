@@ -12,19 +12,20 @@ def main():
     print("--INFO--\n vælge et hus nummer 1 - 14, for alle huse tast 0")
     hus = int(input("hus: "))
     if hus == 0:
-        alle_huse(hus)
+        alle_huse()
     else:
         enkelt_hus(hus)
     main()
 
 
 def alle_huse():
-    hus = 1
-    i = 1
-    while (i < 13):
+    hus = 4 # ændre denne til 4 hvis hus 3, 4 ikke er oprettet
+    i = 4 # ændre denne til 4 hvis hus 3, 4 ikke er oprettet
+    while (i <= 14):
         hus = hus + 1  # looper alle huse igennem
         s = HTMLSession()
         url = 'https://lundagersgartneri.dk/location/hus-{}/'.format(hus)  # url bliver indsat det ønskede hus nummer
+       
         print(hus, "ud af 14")  # viser hvor langt den er nået
 
         def get_links(url):
@@ -33,10 +34,10 @@ def alle_huse():
             links = []
             for item in items:
                 links.append(
-                    item.find('a', first=True).attrs['href'])  # tager alle link fra selve vare siden på det følgene hus
+                item.find('a', first=True).attrs['href'])  # tager alle link fra selve vare siden på det følgene hus
             return links
 
-        print(len(get_links(url)))
+        print("Antal vare i hus:", len(get_links(url)))
 
         def get_productdata(link):
             r = s.get(link)
@@ -59,12 +60,16 @@ def alle_huse():
                     0].full_text  # linje 1 fra hjemmeside placering
             except:
                 bord = "-"  # hvis ikke fundet indsættes "-"
-
+            try:
+                hus = r.html.find('div.elementor-element.elementor-element-2030407.elementor-widget.elementor-widget-shortcode')[0].full_text
+            except:
+                hus = "-" # hvis ikke fundet indsættes "-"
             product = {
                 'Vare': title.strip(),
                 'lager': lager.strip(),
                 'placering 1': bord.strip(),
-                'placering 2': bord2.strip()
+                'placering 2': bord2.strip(),
+                'Hus': hus.strip()
             }
             # gemmer alle tags
             print(product)
@@ -72,16 +77,15 @@ def alle_huse():
 
         results = []
         links = get_links(url)
-
         for link in links:
             results.append(get_productdata(link))
             time.sleep(1)
-        # gemmer hvert hus nummer i hver csv fil
+            # gemmer hvert hus nummer i hver csv fil
         with open('hus{}.csv'.format(hus), 'w', encoding='utf8', newline='') as f:
             fc = csv.DictWriter(f, fieldnames=results[0].keys(), )
             fc.writeheader()
             fc.writerows(results)
-        print(hus, "Færdig")
+            print(hus, "Færdig")
 
         i = +1
     exit(0)
@@ -104,6 +108,7 @@ def enkelt_hus(hus):
     print("Antal vare i hus:", len(get_links(url)))
 
     def get_productdata(link):
+        
         r = s.get(link)
         title = r.html.find('h1', first=True).full_text  # finder første titel med h1 stor text
         try:
@@ -124,12 +129,17 @@ def enkelt_hus(hus):
                 0].full_text  # linje 1 fra hjemmeside placering
         except:
             bord = "-"  # hvis ikke fundet indsættes "-"
+        try:
+            hus = r.html.find('div.elementor-element.elementor-element-2030407.elementor-widget.elementor-widget-shortcode')[0].full_text
+        except:
+            hus = "-"
 
         product = {
             'Vare': title.strip(),
             'lager': lager.strip(),
             'placering 1': bord.strip(),
-            'placering 2': bord2.strip()
+            'placering 2': bord2.strip(),
+            'Hus': hus.strip()
         }
         # gemmer alle tags
         print(product)
