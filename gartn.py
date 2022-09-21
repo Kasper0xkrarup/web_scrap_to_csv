@@ -19,9 +19,9 @@ def main():
 
 
 def alle_huse():
-    hus = 4 # ændre denne til 4 hvis hus 3, 4 ikke er oprettet
-    i = 4 # ændre denne til 4 hvis hus 3, 4 ikke er oprettet
-    while (i <= 14):
+    hus = 1 # ændre denne til 4 hvis hus 3, 4 ikke er oprettet
+    i = 1 # ændre denne til 4 hvis hus 3, 4 ikke er oprettet
+    while (i < 20):
         hus = hus + 1  # looper alle huse igennem
         s = HTMLSession()
         url = 'https://lundagersgartneri.dk/location/hus-{}/'.format(hus)  # url bliver indsat det ønskede hus nummer
@@ -41,7 +41,7 @@ def alle_huse():
 
         def get_productdata(link):
             r = s.get(link)
-            title = r.html.find('h1', first=True).full_text  # finder første titel med h1 stor text
+            title = r.html.find('div.elementor-element.elementor-element-5a161fd.elementor-widget.elementor-widget-woocommerce-product-title.elementor-page-title.elementor-widget-heading')[0].text  # finder titel
             try:
                 lager = r.html.find(
                     'div.elementor-element.elementor-element-6876ca6.elementor-widget.elementor-widget-woocommerce-product-stock')[
@@ -81,7 +81,7 @@ def alle_huse():
             results.append(get_productdata(link))
             time.sleep(1)
             # gemmer hvert hus nummer i hver csv fil
-        with open('hus{}.csv'.format(hus), 'w', encoding='utf8', newline='') as f:
+        with open('hus{}.csv'.format(hus), 'w', encoding='utf16', newline='') as f:
             fc = csv.DictWriter(f, fieldnames=results[0].keys(), )
             fc.writeheader()
             fc.writerows(results)
@@ -110,7 +110,7 @@ def enkelt_hus(hus):
     def get_productdata(link):
         
         r = s.get(link)
-        title = r.html.find('h1', first=True).full_text  # finder første titel med h1 stor text
+        title = r.html.find('div.elementor-element.elementor-element-5a161fd.elementor-widget.elementor-widget-woocommerce-product-title.elementor-page-title.elementor-widget-heading')[0].text  # finder første titel med h1 stor text
         try:
             lager = r.html.find(
                 'div.elementor-element.elementor-element-6876ca6.elementor-widget.elementor-widget-woocommerce-product-stock')[
@@ -152,7 +152,7 @@ def enkelt_hus(hus):
         results.append(get_productdata(link))
         time.sleep(1)
 
-    with open('hus{}.csv'.format(hus), 'w', encoding='utf8', newline='') as f:
+    with open('hus{}.csv'.format(hus), 'w', encoding='utf16', newline='') as f:
         fc = csv.DictWriter(f, fieldnames=results[0].keys(), )
         fc.writeheader()
         fc.writerows(results)
