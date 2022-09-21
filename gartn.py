@@ -1,7 +1,9 @@
 import errno
 from gettext import find
+from pickle import FALSE
 from re import T
 from sre_constants import FAILURE
+from tkinter import FIRST
 from requests_html import HTMLSession
 import csv
 import time
@@ -60,17 +62,16 @@ def alle_huse():
                     0].full_text  # linje 1 fra hjemmeside placering
             except:
                 bord = "-"  # hvis ikke fundet indsættes "-"
-            try:
-                hus = r.html.search('Hus:{}')[0]
-                #hus = r.html.find('div.elementor-element.elementor-element-2030407.elementor-widget.elementor-widget-shortcode')[0].full_text
-            except:
-                hus = "-" # hvis ikke fundet indsættes "-"
+            #try:
+            #    hus = r.html.find('div.elementor-element.elementor-element-2030407.elementor-widget.elementor-widget-shortcode')[0].full_text
+            #except:
+            #    hus = "-" # hvis ikke fundet indsættes "-"
             product = {
                 'Vare': title.strip(),
-                'lager': lager.strip(),
-                'placering 1': bord.strip(),
-                'placering 2': bord2.strip(),
-                'Hus': hus
+                'Lager Status': lager.strip(),
+                'Placering 1': bord.strip(),
+                'Placering 2': bord2.strip(),
+            #    'Hus': hus
             }
             # gemmer alle tags
             print(product)
@@ -130,17 +131,22 @@ def enkelt_hus(hus):
                 0].full_text  # linje 1 fra hjemmeside placering
         except:
             bord = "-"  # hvis ikke fundet indsættes "-"
-        try:
-            hus = r.html.find('div.elementor-element.elementor-element-2030407.elementor-widget.elementor-widget-shortcode')[0].full_text
-        except:
-            hus = "-"
-
+        #try:
+            #hus = r.html.find('li.slw-product-location')[0].full_text
+            #hus = r.html.find('div.elementor-element.elementor-element-2030407.elementor-widget.elementor-widget-shortcode')[0].full_text
+       # except:
+       #     hus = "-"
+       # try:
+       #     placering2 = r.html.find('ui.slw-product-locations-list')[0].full_text
+       # except:
+       #     placering2 = "-"
         product = {
             'Vare': title.strip(),
             'lager': lager.strip(),
             'placering 1': bord.strip(),
             'placering 2': bord2.strip(),
-            'Hus': hus.strip()
+           # 'Hus': hus,
+           # 'Hus anden': placering2
         }
         # gemmer alle tags
         print(product)
