@@ -142,9 +142,9 @@ def enkelt_hus(hus):
        #     placering2 = "-"
         product = {
             'Vare': title.strip(),
-            'lager': lager.strip(),
-            'placering 1': bord.strip(),
-            'placering 2': bord2.strip(),
+            'Lager Status': lager.strip(),
+            'Placering 1': bord.strip(),
+            'Placering 2': bord2.strip(),
            # 'Hus': hus,
            # 'Hus anden': placering2
         }
