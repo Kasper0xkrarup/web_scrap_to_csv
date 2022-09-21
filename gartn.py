@@ -61,7 +61,8 @@ def alle_huse():
             except:
                 bord = "-"  # hvis ikke fundet indsættes "-"
             try:
-                hus = r.html.find('div.elementor-element.elementor-element-2030407.elementor-widget.elementor-widget-shortcode')[0].full_text
+                hus = r.html.search('Hus:{}')[0]
+                #hus = r.html.find('div.elementor-element.elementor-element-2030407.elementor-widget.elementor-widget-shortcode')[0].full_text
             except:
                 hus = "-" # hvis ikke fundet indsættes "-"
             product = {
@@ -69,7 +70,7 @@ def alle_huse():
                 'lager': lager.strip(),
                 'placering 1': bord.strip(),
                 'placering 2': bord2.strip(),
-                'Hus': hus.strip()
+                'Hus': hus
             }
             # gemmer alle tags
             print(product)
@@ -151,6 +152,7 @@ def enkelt_hus(hus):
     for link in links:
         results.append(get_productdata(link))
         time.sleep(1)
+        
 
     with open('hus{}.csv'.format(hus), 'w', encoding='utf16', newline='') as f:
         fc = csv.DictWriter(f, fieldnames=results[0].keys(), )
