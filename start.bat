@@ -1,3 +1,3 @@
 @echo off
 
-python3 gartn.py
+python3 scrap.py
