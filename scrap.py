@@ -3,7 +3,7 @@ from gettext import find
 from pickle import FALSE
 from re import T
 from sre_constants import FAILURE
-from tkinter import FIRST
+#from tkinter import FIRST
 from requests_html import HTMLSession
 import csv
 import time
