@@ -1,4 +1,4 @@
-# webscrap_printout
+# Web_scrap_to_csv
 gartner
 Beta, " skal optimers"
 "pip install requests-html" skal installers
